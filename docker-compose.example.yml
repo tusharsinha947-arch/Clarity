@@ -1,0 +1,22 @@
+# Example only. Review the official Piston deployment instructions before using this.
+# This local setup assumes the official Piston image and its required configuration are
+# suitable for your machine. Keep the runner private; do not publish port 2000 publicly.
+services:
+  clarity-api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      NODE_ENV: "production"
+      PISTON_API_URL: "http://piston:2000"
+      FRONTEND_ORIGIN: "http://localhost:5173"
+    depends_on:
+      - piston
+
+  piston:
+    image: ghcr.io/engineer-man/piston
+    # Do not add a public ports mapping for production.
+    # The image may require additional setup/runtime installation per official docs.
+    expose:
+      - "2000"
